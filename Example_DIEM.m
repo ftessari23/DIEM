@@ -11,7 +11,7 @@ clear, clc, close all
 %Number of Dimensions
 N = 12;
 %Maximum and Minimum Values of your measured quantities
-minV = -1;
+minV = 0;
 maxV = 1;
 
 %Based on these, you can compute the DIEM center, min, max and orthogonal
