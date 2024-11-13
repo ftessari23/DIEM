@@ -1,5 +1,5 @@
 # DIEM
-Dimensiona Insensitive Euclidean Metric
+Dimension Insensitive Euclidean Metric
 
 This repository contains the Matlab functions to correctly compute the Dimension Insensitive Euclidean Metric.
 
