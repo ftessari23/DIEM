@@ -13,7 +13,8 @@ for j = 1:1e5
 end
 %Deterending Euclidian Distance on Median Value
 exp_center = median(d);
-vard = var(d); %Variance of Detrended Distirbution
+d_detrended = d - exp_center;
+vard = var(d_detrended); %Variance of Detrended Distirbution
 orth_med = (maxV-minV)*(median(dort) - exp_center)./var(d); %Median DIEM of Orthogonal Quantities
 adjusted_dist = (maxV-minV)*(d - exp_center)./var(d); %Centering the DIEM distribution to zero and scaling it to have same variance and range
 std_one = std(adjusted_dist); %One Standard Deviation of DIEM
