@@ -19,7 +19,7 @@ adjusted_dist = (maxV-minV)*(d - exp_center)./var(d); %Centering the DIEM distri
 std_one = std(adjusted_dist); %One Standard Deviation of DIEM
 
 min_DIEM = -(maxV-minV)*(exp_center/vard); %Minimum DIEM 
-max_DIEM = (maxV-minV)*(sqrt(N)*(maxV-minV)/vard); %Maximum DIEM 
+max_DIEM = (maxV-minV)*(sqrt(N)*(maxV-minV)-exp_center)/vard; %Maximum DIEM 
 
 width = 10;
 
