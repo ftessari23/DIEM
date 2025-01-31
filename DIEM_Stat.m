@@ -38,7 +38,7 @@ if fig_flag == 1
     plot(1:width,zeros(1,width),'k--','Linewidth',1), hold on
     plot(1:width,orth_med*ones(1,width),'k-.','Linewidth',1,'MarkerSize',15), hold on
     plot(1:width,-(maxV-minV)*(exp_center/vard)*ones(1,width),'k-.','Linewidth',1,'MarkerSize',15), hold on
-    plot(1:width,(maxV-minV)*(sqrt(N)*(maxV-minV)/vard)*ones(1,width),'k-.','Linewidth',1), hold on
+    plot(1:width,(maxV-minV)*(sqrt(N)*(maxV-minV)-exp_center)/vard*ones(1,width),'k-.','Linewidth',1), hold on
     ylabel('DIEM','FontName','Times New Roman')
     box off
     h = gca;
