@@ -1,8 +1,5 @@
 clear, clc, close all
 %This is an example code for the use of the DIEM functions
-%Latest Version --- November 13th, 2024
-%Code prepared by Federico Tessari, PhD
-%Newman Laboratory for Biomechanics and Human Rehabiliation, MechE, MIT
 
 %To compute the DIEM between 2 hyper-dimensional points (or a matrix of
 %them) you first need to compute the statistical distribution properties.
