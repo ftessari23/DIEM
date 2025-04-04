@@ -2,11 +2,6 @@
 % Cosine Similarity for Multidimensional Comparisons: Dimension Insensitive
 % Euclidean Metric"
 
-% Latest Version --- March 7th, 2025
-% Code prepared by Federico Tessari, PhD
-% Newman Laboratory for Biomechanics and Human Rehabiliation, MechE, MIT
-
-
 % Just hit the "Run" button and let it crunch the numbers. Depending on the
 % computer, the code might take some time to run (1-3 minutes).
 
