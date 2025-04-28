@@ -1,12 +1,10 @@
 import numpy as np
-import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import scipy
 from scipy.spatial.distance import cdist
 from scipy.linalg import norm
-from scipy.stats import kstest, chi2, zscore
 import os
-import sys
 from diem_functions import DIEM_Stat, getDIEM
 
 # --- Utility Functions ---
@@ -139,7 +137,6 @@ class TextEmbeddingSimilarity:
         plt.tight_layout()
         plt.show()
 
-from scipy.stats import norm
 
 def estimate_diem_stats(embeddings, num_samples=10000):
     idx = np.random.randint(0, len(embeddings), size=(num_samples, 2))
@@ -150,30 +147,30 @@ def ztest_manual(data, value=0, std_dev=1):
     mean_sample = np.mean(data)
     n = len(data)
     z = (mean_sample - value) / (std_dev / np.sqrt(n))
-    p = 2 * (1 - norm.cdf(abs(z)))  # two-tailed test
+    p = 2 * (1 - scipy.stats.norm.cdf(abs(z))) 
     return z, p
 
-# --- Main Execution (like MATLAB script). Are we sure this is right? ---
+# --- Main Execution. @ftessari23 should qualitatively test the results. ---
+# --- Similar to 
 if __name__ == '__main__':
-    # N_list = list(range(2, 102, 10))
-    # dist_type = int(input("Choose a distribution type: (1) Uniform, (2) Gaussian, (3) Uniform on Unit-Sphere): "))
+    N_list = list(range(2, 102, 10))
+    dist_type = int(input("Choose a distribution type: (1) Uniform, (2) Gaussian, (3) Uniform on Unit-Sphere): "))
     
-    # print("Running synthetic vector distance analysis...")
-    # analyzer = DistanceAnalysis(N_list, vmax=1, vmin=0, dist_type=dist_type)
-    # analyzer.simulate()
-    # print("Sample cosine values for first N:", analyzer.results[analyzer.N[0]]['cos_p'][:5])
-
-    # analyzer.plot_results()
+    print("Running synthetic vector distance analysis...")
+    analyzer = DistanceAnalysis(N_list, vmax=1, vmin=0, dist_type=dist_type)
+    analyzer.simulate()
+    print("Plotting results...")
+    analyzer.plot_results()
 
     print("\nRunning text embedding similarity analysis...")
     emb1_file = os.path.join('TextEmbeddings', 'embeddings1.csv')
     emb2_file = os.path.join('TextEmbeddings', 'embeddings2.csv')
-    # print('ok')
+    
     emb_sim = TextEmbeddingSimilarity(emb1_file, emb2_file, is_file=True)
     
     cosine_sim = emb_sim.compute_cosine_similarity()
 
-    N = 384
+    N = emb_sim.sent1.shape[1]
     maxV = 1
     minV = 0
 
@@ -183,10 +180,5 @@ if __name__ == '__main__':
     
     emb_sim.plot_comparison(cosine_sim, diem_sim, min_DIEM, max_DIEM)
 
-    h_0_DIEM, p_0_DIEM = ztest_manual(diem_sim.flatten(), value=0, std_dev=std_one)
-    print(f"\nZ-test result on DIEM: h = {h_0_DIEM}, p = {p_0_DIEM}")
 
-    h_0_DIEM, p_0_DIEM = ztest_manual(cosine_sim.flatten(), value=0, std_dev=std_one)
-    print(f"\nZ-test result on DIEM: h = {h_0_DIEM}, p = {p_0_DIEM}")
 
-    

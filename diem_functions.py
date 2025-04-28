@@ -78,22 +78,22 @@ def plotDIEM(DIEM, textToggle, textSize, minD, maxD):
     plt.gcf().patch.set_facecolor('white')
     plt.show()
     return ax
+# --- Main function to test the DIEM functions ---
+# --- Similar to Example_DIEM.m ---
+if __name__ == '__main__':
 
+    # Parameters
+    N = 12
+    minV = 0
+    maxV = 1
+    fig_flag = 1
 
-import numpy as np
+    # Compute DIEM stats
+    exp_center, vard, std_one, orth_med, min_DIEM, max_DIEM = DIEM_Stat(N, maxV, minV, fig_flag)
 
-# # Parameters
-# N = 12
-# minV = 0
-# maxV = 1
-# fig_flag = 1
+    # Generate synthetic data
+    S1 = np.random.rand(N, 5) * (maxV - minV) + minV
+    S2 = np.random.rand(N, 5) * (maxV - minV) + minV
 
-# # Compute DIEM stats
-# exp_center, vard, std_one, orth_med, min_DIEM, max_DIEM = DIEM_Stat(N, maxV, minV, fig_flag)
-
-# # Generate synthetic data
-# S1 = np.random.rand(N, 5) * (maxV - minV) + minV
-# S2 = np.random.rand(N, 5) * (maxV - minV) + minV
-
-# # Compute DIEM matrix
-# DIEM, ax = getDIEM(S1, S2, maxV, minV, exp_center, vard, Plot='on', Text='on')
+    # Compute DIEM matrix
+    DIEM, ax = getDIEM(S1, S2, maxV, minV, exp_center, vard, Plot='on', Text='on')
