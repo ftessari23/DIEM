@@ -21,7 +21,6 @@ pip install numpy
 pip install matplotlib
 pip install scipy
 pip install seaborn
-
 ```
 After that, you can run the example with:
 ```
