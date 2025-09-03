@@ -334,10 +334,26 @@ DIEM = getDIEM(sent1',sent2',maxV,minV,exp_center,vard,'Plot','off','Text','off'
 cos_Sim = diag(cosineSimilarity);
 DIEMSim = diag(DIEM);
 
+% Generate Random Vectors
+vmax = maxV;
+vmin = minV;
+
+for j = 1:1e4
+    % Uniform Distribution
+    at(:,j) = (vmax-vmin)*rand(N,1)+vmin;
+    %Uniform Distribution
+    bt(:,j) = (vmax-vmin)*rand(N,1)+vmin;
+
+    %Cosine Similarity
+    cs_rand(j) = cosSim(at(:,j),bt(:,j));
+    DIEM_rand(j) = getDIEM(at(:,j),bt(:,j),maxV,minV,exp_center,vard,'Plot','off','Text','off');
+end
+
 % Text Embedding Figure
 clc
-figure('Color','white')
-tt = tiledlayout(2,2);
+figure()
+set(gcf,'Color','white');
+tt = tiledlayout(3,2);
 ylabel(tt,'Percentage Frequency','FontName','Times New Roman')
 
 nexttile()
@@ -347,6 +363,7 @@ plot([0 0],[0 max(histcounts(cos_Sim(:),'Normalization','percentage'))],'k--','L
 plot([1 1],[0 max(histcounts(cos_Sim(:),'Normalization','percentage'))],'k--','LineWidth',2), hold on
 % plot([0.75 0.75],[0 max(histcounts(cosineSimilarity(:),'Normalization','percentage'))],'r--','LineWidth',2), hold on
 box off
+xlim([0 1.1])
 set(gca, 'XDir','reverse')
 title('Cosine Similarity')
 subtitle('Pair-wise Comparisons')
@@ -355,8 +372,8 @@ nexttile()
 histogram(DIEMSim,'Normalization','percentage','EdgeColor','none'), hold on
 % histogram(DIEM(:),'Normalization','percentage'), hold on
 plot([min_DIEM min_DIEM],[0 max(histcounts(DIEMSim(:),'Normalization','percentage'))],'k--','LineWidth',2), hold on
-plot([max(DIEM(:)) max(DIEM(:))],[0 max(histcounts(DIEMSim(:),'Normalization','percentage'))],'k--','LineWidth',2), hold on
-xlim([1.03*min_DIEM 0.9*max(DIEM(:))])
+plot([max(DIEM_rand(:)) max(DIEM_rand(:))],[0 max(histcounts(DIEMSim(:),'Normalization','percentage'))],'k--','LineWidth',2), hold on
+xlim([1.03*min_DIEM 1.1*max(DIEM_rand(:))])
 box off
 title('DIEM')
 subtitle('Pair-wise Comparisons')
@@ -367,6 +384,7 @@ histogram(cosineSimilarity(:),'Normalization','percentage','EdgeColor','none'), 
 plot([0 0],[0 max(histcounts(cosineSimilarity(:),'Normalization','percentage'))],'k--','LineWidth',2), hold on
 plot([1 1],[0 max(histcounts(cosineSimilarity(:),'Normalization','percentage'))],'k--','LineWidth',2), hold on
 % plot([0.75 0.75],[0 max(histcounts(cosineSimilarity(:),'Normalization','percentage'))],'r--','LineWidth',2), hold on
+xlim([0 1.1])
 set(gca, 'XDir','reverse')
 box off
 subtitle('All-possible Comparisons')
@@ -375,10 +393,30 @@ nexttile()
 % histogram(DIEMSim,'Normalization','percentage'), hold on
 histogram(DIEM(:),'Normalization','percentage','EdgeColor','none'), hold on
 plot([min_DIEM min_DIEM],[0 max(histcounts(DIEM(:),'Normalization','percentage'))],'k--','LineWidth',2), hold on
-plot([max(DIEM(:)) max(DIEM(:))],[0 max(histcounts(DIEM(:),'Normalization','percentage'))],'k--','LineWidth',2), hold on
-xlim([1.03*min_DIEM 0.9*max(DIEM(:))])
+plot([max(DIEM_rand(:)) max(DIEM_rand(:))],[0 max(histcounts(DIEM(:),'Normalization','percentage'))],'k--','LineWidth',2), hold on
+xlim([1.03*min_DIEM 1.1*max(DIEM_rand(:))])
 box off
 subtitle('All-possible Comparisons')
+
+nexttile()
+% histogram(cos_Sim,'Normalization','percentage'), hold on
+histogram(cs_rand(:),'Normalization','percentage','EdgeColor','none'), hold on
+plot([0 0],[0 max(histcounts(cs_rand(:),'Normalization','percentage'))],'k--','LineWidth',2), hold on
+plot([1 1],[0 max(histcounts(cs_rand(:),'Normalization','percentage'))],'k--','LineWidth',2), hold on
+% plot([0.75 0.75],[0 max(histcounts(cosineSimilarity(:),'Normalization','percentage'))],'r--','LineWidth',2), hold on
+xlim([0 1.1])
+set(gca, 'XDir','reverse')
+box off
+subtitle('Random Comparisons')
+
+nexttile()
+% histogram(DIEMSim,'Normalization','percentage'), hold on
+histogram(DIEM_rand(:),'Normalization','percentage','EdgeColor','none'), hold on
+plot([min_DIEM min_DIEM],[0 max(histcounts(DIEM_rand(:),'Normalization','percentage'))],'k--','LineWidth',2), hold on
+plot([max(DIEM_rand(:)) max(DIEM_rand(:))],[0 max(histcounts(DIEM_rand(:),'Normalization','percentage'))],'k--','LineWidth',2), hold on
+xlim([1.03*min_DIEM 1.1*max(DIEM_rand(:))])
+box off
+subtitle('Random Comparisons')
 
 % Statistical Testing
 [h_0_DIEM,p_0_DIEM] = ztest(DIEM(:),0,std_one);
